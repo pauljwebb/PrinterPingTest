@@ -13,9 +13,12 @@ $Results = foreach ($Printer in $Printers) {
     $Ping = Test-Connection -ComputerName $IP -Count 1 -Quiet
     $Status = if ($Ping) { "Online" } else { "Offline" }
 
-    # Console output with result
-    $ResultText = if ($Ping) { "Success" } else { "Failed" }
-    Write-Host "Tested $($Printer.Name) at $IP - $ResultText"
+    # Console output with colored result
+    if ($Ping) {
+        Write-Host "Tested $($Printer.Name) at $IP - Success" -ForegroundColor Green
+    } else {
+        Write-Host "Tested $($Printer.Name) at $IP - Failed" -ForegroundColor Red
+    }
 
     [PSCustomObject]@{
         PrinterName = $Printer.Name
